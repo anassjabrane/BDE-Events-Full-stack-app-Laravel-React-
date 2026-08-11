@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\EventApiController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/events', [EventApiController::class, 'index']);
