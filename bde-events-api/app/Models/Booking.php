@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Booking extends Model
 {
@@ -10,5 +11,6 @@ class Booking extends Model
         'user_id',
         'event_id',
     ];
+    
 }
 
