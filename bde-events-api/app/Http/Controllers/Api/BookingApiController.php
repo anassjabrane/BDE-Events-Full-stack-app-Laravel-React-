@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Models\Ticket;
+use Illuminate\Support\Str;
 
 class BookingApiController extends Controller
 {
@@ -34,9 +36,15 @@ class BookingApiController extends Controller
         'event_id' => $event->id,
     ]);
 
+    $ticket = Ticket::create([
+    'booking_id' => $booking->id,
+    'code' => 'BDE-' . date('Y') . '-' . strtoupper(Str::random(5)),
+]);
+
     return response()->json([
-        'message' => 'Booking created successfully',
-        'booking' => $booking
-    ], 201);
+    'message' => 'Booking created successfully',
+    'booking' => $booking,
+    'ticket' => $ticket
+], 201);
 }
 }
