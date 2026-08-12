@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EventApiController;
 use App\Http\Controllers\Api\BookingApiController;
 use App\Http\Controllers\Api\TicketApiController;
+use App\Http\Controllers\Api\AuthApiController;
 
 
 
@@ -17,3 +18,5 @@ Route::post('/events/{event}/book', [BookingApiController::class, 'store']);
 
 
 Route::get('/user/tickets', [TicketApiController::class, 'index']);
+
+Route::post('/login', [AuthApiController::class, 'login']);
