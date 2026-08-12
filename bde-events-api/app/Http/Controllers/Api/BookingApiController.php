@@ -21,7 +21,7 @@ class BookingApiController extends Controller
         ], 400);
     }
 
-    $alreadyBooked = Booking::where('user_id', $request->user_id)
+    $alreadyBooked = Booking::where('user_id', $request->user()->id)
         ->where('event_id', $event->id)
         ->exists();
 
@@ -32,9 +32,9 @@ class BookingApiController extends Controller
     }
 
     $booking = Booking::create([
-        'user_id' => $request->user_id,
-        'event_id' => $event->id,
-    ]);
+    'user_id' => $request->user()->id,
+    'event_id' => $event->id,
+]);
 
     $ticket = Ticket::create([
     'booking_id' => $booking->id,
