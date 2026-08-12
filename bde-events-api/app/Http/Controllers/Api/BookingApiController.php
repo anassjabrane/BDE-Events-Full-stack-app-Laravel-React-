@@ -9,24 +9,34 @@ use Illuminate\Http\Request;
 
 class BookingApiController extends Controller
 {
-    public function store(Request $request)
-    {
-        $event = Event::find($request->event_id);
+   public function store(Request $request, Event $event)
+{
+    $bookingsCount = Booking::where('event_id', $event->id)->count();
 
-        if (!$event) {
-            return response()->json([
-                'message' => 'Event not found'
-            ], 404);
-        }
-
-        $booking = Booking::create([
-            'user_id' => $request->user_id,
-            'event_id' => $event->id,
-        ]);
-
+    if ($bookingsCount >= $event->max_capacity) {
         return response()->json([
-            'message' => 'Booking created successfully',
-            'booking' => $booking
-        ], 201);
+            'message' => 'Event is full'
+        ], 400);
     }
+
+    $alreadyBooked = Booking::where('user_id', $request->user_id)
+        ->where('event_id', $event->id)
+        ->exists();
+
+    if ($alreadyBooked) {
+        return response()->json([
+            'message' => 'Student already booked this event'
+        ], 400);
+    }
+
+    $booking = Booking::create([
+        'user_id' => $request->user_id,
+        'event_id' => $event->id,
+    ]);
+
+    return response()->json([
+        'message' => 'Booking created successfully',
+        'booking' => $booking
+    ], 201);
+}
 }
