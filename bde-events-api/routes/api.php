@@ -17,6 +17,10 @@ Route::delete('/events/{event}', [EventApiController::class, 'destroy']);
 Route::post('/events/{event}/book', [BookingApiController::class, 'store']);
 
 
-Route::get('/user/tickets', [TicketApiController::class, 'index']);
+// Route::get('/user/tickets', [TicketApiController::class, 'index']);
+Route::middleware('auth:sanctum')->get(
+    '/user/tickets',
+    [TicketApiController::class, 'index']
+);
 
 Route::post('/login', [AuthApiController::class, 'login']);
